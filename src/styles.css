@@ -1,0 +1,38 @@
+.ant-menu#TopMenu .ant-menu-item {
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.ant-menu#TopMenu .ant-menu-item.ant-menu-item-selected,
+.ant-menuTopMenu .ant-menu-item.ant-menu-item-selected.ant-menu-item-active {
+  background-color: #ffffff;
+  color: #7cba27;
+}
+
+#TopMenu svg.ant-menu-item-icon {
+  vertical-align: -0.5em;
+}
+
+.ant-row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.ant-col:first-child {
+  padding-left: 0 !important;
+}
+
+.ant-col:last-child {
+  padding-right: 0 !important;
+}
+
+.ant-form-item-explain-error,
+.ant-form-item-explain.ant-form-item-explain-connected {
+  font-size: 80%;
+}
+
+#SidebarMenu .ant-card-body {
+  padding-top: 0;
+  padding-bottom: 0;
+}
