@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/dist/query'
+import { setupListeners } from '@reduxjs/toolkit/query'
 import { combineReducers } from 'redux'
 import siteInfoReducer from './ducks/site-info'
 import { applicationEndpoints } from './services/applications'
