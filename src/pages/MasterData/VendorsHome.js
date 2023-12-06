@@ -1,8 +1,8 @@
-import { Button, Flex, Spin } from 'antd'
+/* eslint-disable no-unused-vars */
+import { Button, Divider, Flex, Pagination, Spin, Table } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import DataTable from '../../components/data-tables/DataTable'
 import { setDescription, setTitle } from '../../ducks/site-info'
 import { useGetVendorsQuery } from '../../services/vendors'
 import { APP_URLS } from '../../utils/constants'
@@ -10,7 +10,13 @@ import { APP_URLS } from '../../utils/constants'
 const VendorsPage = () => {
   const dispatch = useDispatch()
   const navigatate = useNavigate()
-  const { data: vendorsData, isLoading: vendorsAreLoading, isError: vendorsIsError, error: vendorsError } = useGetVendorsQuery()
+  const {
+    data: vendorsData,
+    isLoading: vendorsAreLoading,
+    isError: vendorsIsError,
+    error: vendorsError,
+    refetch: refetchVendors
+  } = useGetVendorsQuery()
 
   useEffect(() => {
     dispatch(setTitle('All vendors'))
@@ -28,34 +34,35 @@ const VendorsPage = () => {
           <Button onClick={() => navigatate(APP_URLS.MASTER_DATA_VENDORS_NEW)}>New Vendor</Button>
         </Button.Group>
       </Flex>
-      <DataTable
-        data={vendorsData}
+      <Divider />
+      <Table
+        loading={vendorsAreLoading}
+        size="small"
+        rowKey="id"
+        dataSource={vendorsData.items}
         columns={[
           {
             title: 'Name',
             dataIndex: 'name',
-            key: 'name',
             render: (text) => <a>{text}</a>
           },
           {
-            title: 'Description',
-            dataIndex: 'description',
-            key: 'description'
-          },
-          {
             title: 'Contact name',
-            dataIndex: 'contact_name',
-            key: 'contact_name'
+            dataIndex: 'contact_name'
           },
           {
             title: 'Contact email',
-            dataIndex: 'contact_email',
-            key: 'contact_email'
+            dataIndex: 'contact_email'
           }
         ]}
-        isLoading={vendorsAreLoading}
-        isError={vendorsIsError}
-        vendorsError={vendorsError}
+        pagination={{
+          total: vendorsData.total,
+          pageSize: vendorsData.size,
+          showSizeChanger: true,
+          showTotal: (total) => `Total ${total} items`,
+          onShowSizeChange: (_, size) => alert(size),
+          onChange: (page) => refetchVendors({ page: page })
+        }}
       />
     </>
   )

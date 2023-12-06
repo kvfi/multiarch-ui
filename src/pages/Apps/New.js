@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setDescription, setTitle } from '../../ducks/site-info'
 
-import { Button, Col, DatePicker, Divider, Form, Input, Radio, Row, Select, Spin, Typography } from 'antd'
+import { Button, Col, DatePicker, Divider, Flex, Form, Input, Radio, Row, Select, Spin, Typography } from 'antd'
 import { useAddApplicationMutation } from '../../services/applications'
 import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
 import { useGetVendorsQuery } from '../../services/vendors'
@@ -23,7 +23,11 @@ const AppNewPage = () => {
   } = useGetBusinessDepartmentsQuery()
   const [vendorSearchTerms, setVendorSearchTerms] = useState()
   const {
-    data: vendors, isLoading: vendorsAreLoading, isError: vendorsIsError, refetch, isFetching
+    data: vendors,
+    isLoading: vendorsAreLoading,
+    isError: vendorsIsError,
+    refetch,
+    isFetching
   } = useGetVendorsQuery(vendorSearchTerms)
   const [addApplication] = useAddApplicationMutation()
   const [form] = Form.useForm()
@@ -43,15 +47,13 @@ const AppNewPage = () => {
   }
 
   const handleSearchVendors = (v) => {
-    setVendorSearchTerms({name: v})
-    return debounce(refetch, 800)
+    setVendorSearchTerms({ name: v })
+    return debounce(refetch, 2000)
   }
 
   const handleOnFinish = (values) => {
-    alert(JSON.stringify(values))
-    addApplication()
+    addApplication(values)
   }
-
 
   return (
     <Form
@@ -67,13 +69,18 @@ const AppNewPage = () => {
       <Title level={4}>General Information</Title>
       <Row gutter={15}>
         <Col span={12}>
-          <Form.Item required label="Application ID" name="id" help="ID should be 4 representative letter characters.">
+          <Form.Item
+            rules={[{ required: true }]}
+            label="Application ID"
+            name="application_id"
+            help="ID should be 4 representative letter characters."
+          >
             <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
           </Form.Item>
-          <Form.Item required label="Application Name" name="name">
+          <Form.Item rules={[{ required: true }]} label="Application Name" name="name">
             <Input />
           </Form.Item>
-          <Form.Item required label="Description" name="description">
+          <Form.Item rules={[{ required: true }]} label="Description" name="description">
             <TextArea rows={6} placeholder="A brief description of the application does and how it supports the daily business." />
           </Form.Item>
         </Col>
@@ -94,18 +101,22 @@ const AppNewPage = () => {
               placeholder="Select a Department"
             />
           </Form.Item>
-          <Form.Item required label="Application Owner" name="application_owner">
+          <Form.Item rules={[{ required: true }]} label="Application Owner" name="application_owner">
             <Input />
           </Form.Item>
-          <Form.Item required sea label="Vendor" name="vendor_id">
+          <Form.Item rules={[{ required: true }]} sea label="Vendor" name="vendor_id">
             {vendorsIsError && 'An error was encountered while loading the vendors list.'}
             <Select
               showSearch
               onSearch={(v) => handleSearchVendors(v)}
               notFoundContent={isFetching ? <Spin size="small" /> : null}
-              options={vendors.total <= 10 ? vendors.items.map((vendor) => {
-                return { value: vendor.id, label: vendor.name }
-              }) : []}
+              options={
+                vendors.total <= 10
+                  ? vendors.items.map((vendor) => {
+                      return { value: vendor.id, label: vendor.name }
+                    })
+                  : []
+              }
               placeholder="Start typing the name of a vendor"
             />
           </Form.Item>
@@ -115,7 +126,7 @@ const AppNewPage = () => {
       <Title level={4}>Versioning and Maintenance</Title>
       <Row gutter={30}>
         <Col span={12}>
-          <Form.Item required label="Version" name="version">
+          <Form.Item rules={[{ required: true }]} label="Version" name="version">
             <Input placeholder="1.30.5" />
           </Form.Item>
           <Form.Item label="Release Date" name="release_date">
@@ -170,11 +181,13 @@ const AppNewPage = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
-      </Form.Item>
+      <Flex vertical align="flex-end">
+        <Form.Item>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+        </Form.Item>
+      </Flex>
     </Form>
   )
 }
