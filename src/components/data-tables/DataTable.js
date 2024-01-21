@@ -8,6 +8,7 @@ const DataTable = ({ data, isLoading, isError, error, columns }) => {
   if (isError) {
     return <Alert message="Error loading vendors." description={error} type="error" />
   }
+  
   return (
     <Table
       bordered

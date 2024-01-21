@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Button, Divider, Flex, Pagination, Spin, Table } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setDescription, setTitle } from '../../ducks/site-info'
@@ -9,6 +9,7 @@ import { APP_URLS } from '../../utils/constants'
 
 const VendorsPage = () => {
   const dispatch = useDispatch()
+  const [vendorSearchTerms, setVendorSearchTerms] = useState()
   const navigatate = useNavigate()
   const {
     data: vendorsData,
@@ -16,7 +17,7 @@ const VendorsPage = () => {
     isError: vendorsIsError,
     error: vendorsError,
     refetch: refetchVendors
-  } = useGetVendorsQuery()
+  } = useGetVendorsQuery(vendorSearchTerms)
 
   useEffect(() => {
     dispatch(setTitle('All vendors'))
@@ -25,6 +26,20 @@ const VendorsPage = () => {
 
   if (vendorsAreLoading) {
     return <Spin />
+  }
+
+  const handlePageSizeChange = (pageSize) => {
+    setVendorSearchTerms((prevState) => ({
+      ...prevState,
+      size: pageSize
+    }))
+  }
+
+  const handlePageNumberChange = (pageNumber) => {
+    setVendorSearchTerms((prevState) => ({
+      ...prevState,
+      page: pageNumber
+    }))
   }
 
   return (
@@ -60,8 +75,8 @@ const VendorsPage = () => {
           pageSize: vendorsData.size,
           showSizeChanger: true,
           showTotal: (total) => `Total ${total} items`,
-          onShowSizeChange: (_, size) => alert(size),
-          onChange: (page) => refetchVendors({ page: page })
+          onShowSizeChange: (_, size) => handlePageSizeChange(size),
+          onChange: (page) => handlePageNumberChange(page)
         }}
       />
     </>

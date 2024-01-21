@@ -2,18 +2,20 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setDescription, setTitle } from '../../ducks/site-info'
 
-import { Button, Col, DatePicker, Divider, Flex, Form, Input, Radio, Row, Select, Spin, Typography } from 'antd'
+import { Alert, Button, Col, DatePicker, Flex, Form, Input, Radio, Result, Row, Select, Spin } from 'antd'
+import { debounce } from 'lodash'
+import { useNavigate } from 'react-router'
+import { MoodSmileBeam } from 'tabler-icons-react'
 import { useAddApplicationMutation } from '../../services/applications'
 import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
 import { useGetVendorsQuery } from '../../services/vendors'
-import { formLayout } from '../../utils/constants'
-import debounce from 'lodash.debounce'
+import { APP_URLS, formLayout } from '../../utils/constants'
 
 const { TextArea } = Input
-const { Title } = Typography
 
 const AppNewPage = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const [apiDocumentationUrlIsVisible, setApiDocumentationUrlIsVisible] = useState(false)
 
   const {
@@ -22,14 +24,11 @@ const AppNewPage = () => {
     isError: businessDepartmentisError
   } = useGetBusinessDepartmentsQuery()
   const [vendorSearchTerms, setVendorSearchTerms] = useState()
-  const {
-    data: vendors,
-    isLoading: vendorsAreLoading,
-    isError: vendorsIsError,
-    refetch,
-    isFetching
-  } = useGetVendorsQuery(vendorSearchTerms)
-  const [addApplication] = useAddApplicationMutation()
+  const { data: vendors, isLoading: vendorsAreLoading, isError: vendorsIsError, isFetching } = useGetVendorsQuery(vendorSearchTerms)
+  const [
+    addApplication,
+    { isLoading: addApplicationIsLoading, isSuccess: addApplicationIsSuccess, isError: addApplicationIsError, error: addApplicationError }
+  ] = useAddApplicationMutation()
   const [form] = Form.useForm()
 
   useEffect(() => {
@@ -37,28 +36,42 @@ const AppNewPage = () => {
     dispatch(setDescription('Add a new application to the Application Portfolio.'))
   }, [])
 
-  if (businessDepartmentsAreLoading || vendorsAreLoading) {
-    return <Spin />
-  }
-
   const handleApiAvailabilityChange = () => {
     const apiAvailability = form.getFieldValue('api_availability')
     setApiDocumentationUrlIsVisible(apiAvailability)
   }
 
-  const handleSearchVendors = (v) => {
-    setVendorSearchTerms({ name: v })
-    return debounce(refetch, 2000)
-  }
+  const handleVendorDebouncedSearch = debounce((searchTerm) => {
+    setVendorSearchTerms({ name: searchTerm })
+  }, 800)
 
   const handleOnFinish = (values) => {
     addApplication(values)
+  }
+
+  if (businessDepartmentsAreLoading || vendorsAreLoading || addApplicationIsLoading) {
+    return <Spin />
+  }
+
+  if (addApplicationIsSuccess) {
+    return (
+      <Result
+        icon={<MoodSmileBeam />}
+        title={`Great, the application (${form.getFieldValue('name')} ${form.getFieldValue('application_code')}) was successfully added!`}
+        extra={
+          <Button type="primary" onClick={navigate(APP_URLS.APPLICATION_PORTFOLIO)}>
+            Application Home
+          </Button>
+        }
+      />
+    )
   }
 
   return (
     <Form
       {...formLayout}
       form={form}
+      size="small"
       initialValues={{
         last_patch_applied: false,
         api_availability: false
@@ -66,22 +79,48 @@ const AppNewPage = () => {
       onFinish={handleOnFinish}
       autoComplete="off"
     >
-      <Title level={4}>General Information</Title>
+      {addApplicationIsError && <Alert message={addApplicationError} type="error" />}
       <Row gutter={15}>
         <Col span={12}>
           <Form.Item
             rules={[{ required: true }]}
-            label="Application ID"
-            name="application_id"
-            help="ID should be 4 representative letter characters."
+            label="Application Code"
+            name="application_code"
+            help="AppCode should be 4 representative letter characters."
           >
             <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
           </Form.Item>
           <Form.Item rules={[{ required: true }]} label="Application Name" name="name">
             <Input />
           </Form.Item>
-          <Form.Item rules={[{ required: true }]} label="Description" name="description">
-            <TextArea rows={6} placeholder="A brief description of the application does and how it supports the daily business." />
+          <Form.Item rules={[{ required: true }]} label="Version" name="version">
+            <Input placeholder="1.30.5" />
+          </Form.Item>
+          <Form.Item label="Release Date" name="release_date">
+            <DatePicker />
+          </Form.Item>
+          <Form.Item label="API available?" name="api_availability">
+            <Radio.Group onChange={(v) => handleApiAvailabilityChange(v)}>
+              <Radio value={true}>Yes</Radio>
+              <Radio value={false}>False</Radio>
+            </Radio.Group>
+          </Form.Item>
+          {apiDocumentationUrlIsVisible && (
+            <Form.Item label="API Documentation URL" name="api_documentation_url">
+              <Input />
+            </Form.Item>
+          )}
+          <Form.Item label="Privacy Policy URL" name="privacy_policy_url">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Download URL" name="download_url">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Vendor Support Email" name="support_email">
+            <Input />
+          </Form.Item>
+          <Form.Item label="Vendor Support Phone" name="support_phone">
+            <Input />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -108,32 +147,17 @@ const AppNewPage = () => {
             {vendorsIsError && 'An error was encountered while loading the vendors list.'}
             <Select
               showSearch
-              onSearch={(v) => handleSearchVendors(v)}
+              filterOption={false}
+              loading={isFetching}
+              onSearch={(v) => handleVendorDebouncedSearch(v)}
               notFoundContent={isFetching ? <Spin size="small" /> : null}
-              options={
-                vendors.total <= 10
-                  ? vendors.items.map((vendor) => {
-                      return { value: vendor.id, label: vendor.name }
-                    })
-                  : []
-              }
+              options={vendors.items.map((vendor) => ({
+                value: vendor.id,
+                label: vendor.name
+              }))}
               placeholder="Start typing the name of a vendor"
             />
           </Form.Item>
-        </Col>
-      </Row>
-      <Divider dashed />
-      <Title level={4}>Versioning and Maintenance</Title>
-      <Row gutter={30}>
-        <Col span={12}>
-          <Form.Item rules={[{ required: true }]} label="Version" name="version">
-            <Input placeholder="1.30.5" />
-          </Form.Item>
-          <Form.Item label="Release Date" name="release_date">
-            <DatePicker />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
           <Form.Item label="Is the last patch applied?" name="last_patch_applied">
             <Radio.Group>
               <Radio value={true}>Yes</Radio>
@@ -145,39 +169,10 @@ const AppNewPage = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Divider dashed />
-      <Title level={4}>Documentation and Links</Title>
-      <Row gutter={30}>
-        <Col span={12}>
-          <Form.Item label="API available?" name="api_availability">
-            <Radio.Group onChange={(v) => handleApiAvailabilityChange(v)}>
-              <Radio value={true}>Yes</Radio>
-              <Radio value={false}>False</Radio>
-            </Radio.Group>
-          </Form.Item>
-          <Form.Item
-            style={{ visibility: apiDocumentationUrlIsVisible ? 'visible' : 'hidden' }}
-            label="API Documentation URL"
-            name="api_documentation_url"
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Privacy Policy URL" name="privacy_policy_url">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Download URL" name="download_url">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Vendor Support Email" name="support_email">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Vendor Support Phone" name="support_phone">
-            <Input />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item label="SLA Details" name="sla_details">
-            <TextArea rows={6} placeholder="Provide details on the SLA for this application." />
+      <Row gutter={15}>
+        <Col span={24}>
+          <Form.Item labelCol={{ span: 4 }} wrapperCol={{ span: 18 }} rules={[{ required: true }]} label="Description" name="description">
+            <TextArea rows={6} placeholder="A brief description of the application does and how it supports the daily business." />
           </Form.Item>
         </Col>
       </Row>
