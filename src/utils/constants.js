@@ -8,7 +8,10 @@ export const APP_URLS = {
   APPLICATION_PORTFOLIO_INFO: '/Apps/Info',
   APPLICATION_PORTFOLIO_CHANGE_REQUEST: '/Apps/ChangeRequest',
   RISK_MANAGEMENT: '/RiskManagement',
-  REQUIREMENTS_MANAGEMENT: '/RequirementsManagement'
+  REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
+  BUSINESS_PROCESS_MANAGEMENT: '/BPM',
+  BPM_PROCESSES: '/BPM/Processes',
+  BPM_PROCESSES_NEW: '/BPM/Processes/New',
 }
 
 export const API_ENDPOINTS = {
@@ -18,12 +21,17 @@ export const API_ENDPOINTS = {
   APPLICATION_ENVIRONMENTS: '/applications/environements',
   APPLICATION_TYPES: '/applications/types',
   BUSINESS_DEPARTMENTS: '/objects/departments',
-  VENDORS: '/vendors'
+  VENDORS: '/vendors',
+  APM: {
+    BUSINESS_PROCESS: '/bpm/processes'
+  }
 }
 
 export const formLayout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 12 }
+  labelCol: { span: 24 },
+  wrapperCol: { span: 24 },
+  formLayout: "vertical",
+  size: "large"
 }
 
 export const tailFormLayout = {

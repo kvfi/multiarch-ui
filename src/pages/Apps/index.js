@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { setDescription, setTitle } from '../../ducks/site-info'
 // import ApplicationPortfolioDataTable from '../../components/data-tables/ApplicationPortfolio'
-import { Button, Checkbox, Divider, Flex, Form, Input, Select, Spin, Typography } from 'antd'
+import { Button, Checkbox, Divider, Flex, Form, Input, Select, Space, Spin, Typography } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import ApplicationPortfolioDataTable from '../../components/data-tables/ApplicationPortfolio'
 import {
@@ -69,11 +69,11 @@ const ApplicationPortfolioHome = () => {
   return (
     <>
       <Flex justify="flex-end" align="flex-end">
-        <Button.Group>
+        <Space.Compact>
           <Button type='primary' onClick={() => navigatate(APP_URLS.APPLICATION_PORTFOLIO_NEW_APP)}>New Application</Button>
           <Button type='primary'>Application Landscape</Button>
           <Button type='primary'>Start Assessment</Button>
-        </Button.Group>
+        </Space.Compact>
       </Flex>
       <Title level={5}>Search</Title>
       <Form

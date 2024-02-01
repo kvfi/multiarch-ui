@@ -10,6 +10,7 @@ import { useAddApplicationMutation } from '../../services/applications'
 import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
 import { useGetVendorsQuery } from '../../services/vendors'
 import { APP_URLS, formLayout } from '../../utils/constants'
+import { rowStyle } from '../../styles'
 
 const { TextArea } = Input
 
@@ -71,7 +72,6 @@ const AppNewPage = () => {
     <Form
       {...formLayout}
       form={form}
-      size="small"
       initialValues={{
         last_patch_applied: false,
         api_availability: false
@@ -80,7 +80,7 @@ const AppNewPage = () => {
       autoComplete="off"
     >
       {addApplicationIsError && <Alert message={addApplicationError} type="error" />}
-      <Row gutter={15}>
+      <Row {...rowStyle}>
         <Col span={12}>
           <Form.Item
             rules={[{ required: true }]}

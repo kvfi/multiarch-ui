@@ -4,6 +4,8 @@ import AppNewPage from './pages/Apps/New'
 import ITAssetsManagementHome from './pages/ITAssets'
 import VendorsPage from './pages/MasterData/VendorsHome'
 import { NotFound } from './pages/not-found'
+import BPMHomePage from './pages/Processes'
+import ProcessNew from './pages/Processes/ProcessNew'
 import RequirementsRepositoryHome from './pages/RequirementsRepository'
 import { APP_URLS } from './utils/constants'
 
@@ -23,6 +25,14 @@ export const routes = [
       {
         path: APP_URLS.APPLICATION_PORTFOLIO,
         element: <ApplicationPortfolioHome />
+      },
+      {
+        path: APP_URLS.BPM_PROCESSES,
+        element: <BPMHomePage />
+      },
+      {
+        path: APP_URLS.BPM_PROCESSES_NEW,
+        element: <ProcessNew />
       },
       {
         path: APP_URLS.APPLICATION_PORTFOLIO_NEW_APP,

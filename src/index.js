@@ -15,7 +15,9 @@ createRoot(document.getElementById('root')).render(
       theme={{
         token: {
           colorPrimary: '#7CBA27',
-          fontFamily: 'Public Sans Variable, sans-serif;'
+          colorText: '#666699',
+          colorBgLayout: '#fff',
+          fontFamily: 'Public Sans Variable, sans-serif'
         }
       }}
     >

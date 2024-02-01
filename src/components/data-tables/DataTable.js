@@ -1,4 +1,4 @@
-import { Alert, Pagination, Spin, Table } from 'antd'
+import { Alert, Spin, Table } from 'antd'
 
 const DataTable = ({ data, isLoading, isError, error, columns }) => {
   if (isLoading) {
@@ -8,15 +8,17 @@ const DataTable = ({ data, isLoading, isError, error, columns }) => {
   if (isError) {
     return <Alert message="Error loading vendors." description={error} type="error" />
   }
-  
+
   return (
-    <Table
-      bordered
-      size="small"
-      columns={columns}
-      dataSource={data.items}
-      pagination={<Pagination current={data.page} total={data.total} />}
-    />
+    <>
+      <Table
+        bordered
+        size="small"
+        columns={columns}
+        dataSource={data.items}
+        pagination={{ current: data.page, pageSize: data.size, total: data.total }}
+      />
+    </>
   )
 }
 
