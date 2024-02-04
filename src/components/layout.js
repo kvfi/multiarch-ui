@@ -108,8 +108,8 @@ export const SiteLayout = () => {
             />
             <Divider />
             <Row>
-              <Col xs={0} sm={2} md={3} xl={7} xxl={6}></Col>
-              <Col xs={24} sm={20} md={18} xl={10} xxl={12}>
+              <Col xs={0} sm={1} md={2} xl={3} xxl={3}></Col>
+              <Col xs={24} sm={22} md={20} xl={18} xxl={18}>
                 <Title level={2}>{siteInfo.title}</Title>
                 {siteInfo.description && <Text>{siteInfo.description}</Text>}
                 <br />
@@ -117,7 +117,7 @@ export const SiteLayout = () => {
                 <br />
                 <Outlet />
               </Col>
-              <Col xs={0} sm={2} md={3} xl={7} xxl={6}></Col>
+              <Col xs={0} sm={1} md={2} xl={3} xxl={3}></Col>
             </Row>
           </Content>
         </Layout>

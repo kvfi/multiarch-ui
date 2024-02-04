@@ -12,11 +12,9 @@ const DataTable = ({ data, isLoading, isError, error, columns }) => {
   return (
     <>
       <Table
-        bordered
         size="small"
         columns={columns}
-        dataSource={data.items}
-        pagination={{ current: data.page, pageSize: data.size, total: data.total }}
+        dataSource={data}
       />
     </>
   )

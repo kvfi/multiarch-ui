@@ -1,6 +1,6 @@
 import { SiteLayout } from './components/layout'
-import ApplicationPortfolioHome from './pages/Apps'
-import AppNewPage from './pages/Apps/New'
+import ApplicationPortfolioHome from './pages/APM'
+import AppViewInfo from './pages/APM/ViewInfo'
 import ITAssetsManagementHome from './pages/ITAssets'
 import VendorsPage from './pages/MasterData/VendorsHome'
 import { NotFound } from './pages/not-found'
@@ -23,6 +23,10 @@ export const routes = [
         element: <ITAssetsManagementHome />
       },
       {
+        path: `${APP_URLS.APPLICATION_PORTFOLIO_VIEWINFO}/:appCode`,
+        element: <AppViewInfo />
+      },
+      {
         path: APP_URLS.APPLICATION_PORTFOLIO,
         element: <ApplicationPortfolioHome />
       },
@@ -33,10 +37,6 @@ export const routes = [
       {
         path: APP_URLS.BPM_PROCESSES_NEW,
         element: <ProcessNew />
-      },
-      {
-        path: APP_URLS.APPLICATION_PORTFOLIO_NEW_APP,
-        element: <AppNewPage />
       },
       {
         path: APP_URLS.REQUIREMENTS_MANAGEMENT,

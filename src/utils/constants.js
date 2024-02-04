@@ -5,7 +5,7 @@ export const APP_URLS = {
   MASTER_DATA_VENDORS_NEW: '/MasterData/Vendors/New',
   APPLICATION_PORTFOLIO: '/Apps',
   APPLICATION_PORTFOLIO_NEW_APP: '/Apps/New',
-  APPLICATION_PORTFOLIO_INFO: '/Apps/Info',
+  APPLICATION_PORTFOLIO_VIEWINFO: '/Apps/ViewInfo',
   APPLICATION_PORTFOLIO_CHANGE_REQUEST: '/Apps/ChangeRequest',
   RISK_MANAGEMENT: '/RiskManagement',
   REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
@@ -25,6 +25,12 @@ export const API_ENDPOINTS = {
   APM: {
     BUSINESS_PROCESS: '/bpm/processes'
   }
+}
+
+export const MODEL_API_ENDPOINTS = {
+  ELEMENTS: '/elements',
+  APPLICATIONS_WITH_PROPERTIES: '/applications_with_properties',
+  CAPABILITIES: '/capabilities',
 }
 
 export const formLayout = {

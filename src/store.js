@@ -5,18 +5,25 @@ import siteInfoReducer from './ducks/site-info'
 import { applicationEndpoints } from './services/applications'
 import { businessDepartmentEndpoints } from './services/business_departments'
 import { vendorsEndpoints } from './services/vendors'
+import { elementEndpoints } from './services/model'
 
 const reducer = combineReducers({
   siteInfo: siteInfoReducer,
   [applicationEndpoints.reducerPath]: applicationEndpoints.reducer,
   [businessDepartmentEndpoints.reducerPath]: businessDepartmentEndpoints.reducer,
-  [vendorsEndpoints.reducerPath]: vendorsEndpoints.reducer
+  [vendorsEndpoints.reducerPath]: vendorsEndpoints.reducer,
+  [elementEndpoints.reducerPath]: elementEndpoints.reducer
 })
 
 export const store = configureStore({
   reducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(applicationEndpoints.middleware, businessDepartmentEndpoints.middleware, vendorsEndpoints.middleware)
+    getDefaultMiddleware().concat(
+      applicationEndpoints.middleware,
+      businessDepartmentEndpoints.middleware,
+      vendorsEndpoints.middleware,
+      elementEndpoints.middleware
+    )
 })
 
 setupListeners(store.dispatch)
