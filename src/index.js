@@ -17,7 +17,8 @@ createRoot(document.getElementById('root')).render(
           colorPrimary: '#7CBA27',
           colorText: '#666699',
           colorBgLayout: '#fff',
-          fontFamily: 'Public Sans Variable, sans-serif'
+          fontFamily: 'Public Sans Variable, sans-serif',
+          colorLink: '#92d500'
         }
       }}
     >

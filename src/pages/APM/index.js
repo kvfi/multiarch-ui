@@ -1,12 +1,14 @@
-import { Card, Col, Divider, Row, Space, Spin, Statistic } from 'antd'
+import { Card, Col, Divider, Row, Space, Spin, Statistic, Typography } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { AppWindow, Briefcase, HeartHandshake, ManualGearbox } from 'tabler-icons-react'
+import { Link } from 'react-router-dom'
+import { AppWindow, Briefcase, ManualGearbox } from 'tabler-icons-react'
 import { setDescription, setTitle } from '../../ducks/site-info'
 import { useGetApplicationsWithPropertiesQuery, useGetBusinessCapabilitiesQuery } from '../../services/model'
 import { Spacer, rowStyle } from '../../styles'
+import { APP_URLS } from '../../utils/constants'
 
-// const { Title } = Typography
+const { Text } = Typography
 
 const ApplicationPortfolioHome = () => {
   const dispatch = useDispatch()
@@ -44,11 +46,11 @@ const ApplicationPortfolioHome = () => {
   } = useGetApplicationsWithPropertiesQuery()
 
   useEffect(() => {
-    dispatch(setTitle('Application Portfolio'))
+    dispatch(setTitle('Application Portfolio Management'))
     dispatch(
       setDescription(
         // eslint-disable-next-line max-len
-        'The application portfolio page is a comprehensive resource dedicated to showcasing the diverse range of software applications used at Multipharma. It includes detailed information about each application, such as its purpose, the business processes it supports, its technical specifications, and its integration with other systems in the portfolio.'
+        'The application portfolio management is a comprehensive resource dedicated to showcasing the diverse range of software applications used at Multipharma. It includes detailed information about each application, such as its purpose, the business processes it supports, its technical specifications, and its integration with other systems in the portfolio.'
       )
     )
   }, [])
@@ -144,15 +146,14 @@ const ApplicationPortfolioHome = () => {
             </Button>
           </Form.Item>
         </Form> */}
-        <Row>
+        {/* <Row>
           <Col span={24}>
             <Card>
               <Card.Meta title="Opportunities" avatar={<HeartHandshake />} />
               <Divider />
             </Card>
           </Col>
-        </Row>
-
+        </Row> */}
         <Row {...rowStyle}>
           <Col span={8}>
             <Card>
@@ -175,6 +176,13 @@ const ApplicationPortfolioHome = () => {
                   <Statistic title="Assessed" value={0} />
                 </Col>
               </Row>
+              <Divider />
+              <Text strong style={{ textTransform: 'uppercase', fontSize: '80%' }} sti>
+                Capability Map
+              </Text>
+              <Space.Compact block>
+                <Link to={APP_URLS.APM_CAPABILITY_MAP}>Browse Capability Map</Link>
+              </Space.Compact>
             </Card>
           </Col>
           <Col span={8}>
@@ -198,17 +206,44 @@ const ApplicationPortfolioHome = () => {
                   <Statistic title="Homegrown" value={0} />
                 </Col>
               </Row>
+              <Divider />
+              <Text strong style={{ textTransform: 'uppercase', fontSize: '80%' }}>
+                Application Portfolio
+              </Text>
+              <Space.Compact block>
+                <Link to={APP_URLS.APM_SEARCH_APPLICATION}>Search Application</Link>
+              </Space.Compact>
             </Card>
           </Col>
           <Col span={8}>
             <Card>
               <Card.Meta title="Technology Architecture" avatar={<ManualGearbox />} />
-              <Col span={12}>
+              <Divider />
+              <Row {...rowStyle}>
+                <Col span={12}>
                   <Statistic title="No. of Technologies" value="?" />
                 </Col>
                 <Col span={12}>
-                  <Statistic title="Homegrown" value={0} />
+                  <Statistic title="My Applications" value={0} />
                 </Col>
+              </Row>
+              <Spacer />
+              <Row {...rowStyle}>
+                <Col span={12}>
+                  <Statistic title="End of Life" value="?" />
+                </Col>
+                <Col span={12}>
+                  <Statistic title="Major Risks" value="?" />
+                </Col>
+              </Row>
+              <Divider />
+              <Text strong style={{ textTransform: 'uppercase', fontSize: '80%' }}>
+                Technology Portofolio
+              </Text>
+              <Space wrap split="|">
+                <Link to={`${APP_URLS.APM_TECH}?category=L`}>Languages</Link>
+                <Link to={`${APP_URLS.APM_TECH}?category=F`}>Frameworks</Link>
+              </Space>
             </Card>
           </Col>
         </Row>
