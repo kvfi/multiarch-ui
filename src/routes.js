@@ -1,5 +1,6 @@
 import { SiteLayout } from './components/layout'
-import ApplicationPortfolioHome from './pages/APM'
+import ApplicationPortfolio from './pages/APM/ApplicationPortfolio'
+import ApplicationPortfolioMangementDashboard from './pages/APM/Dashboard'
 import AppViewInfo from './pages/APM/ViewInfo'
 import ITAssetsManagementHome from './pages/ITAssets'
 import VendorsPage from './pages/MasterData/VendorsHome'
@@ -23,12 +24,16 @@ export const routes = [
         element: <ITAssetsManagementHome />
       },
       {
-        path: `${APP_URLS.APPLICATION_PORTFOLIO_VIEWINFO}/:appCode`,
+        path: APP_URLS.APM_DASHBOARD,
+        element: <ApplicationPortfolioMangementDashboard />
+      },
+      {
+        path: `${APP_URLS.APM_VIEWINFO}/:appCode`,
         element: <AppViewInfo />
       },
       {
-        path: APP_URLS.APPLICATION_PORTFOLIO,
-        element: <ApplicationPortfolioHome />
+        path: `${APP_URLS.APM_APPLICATION_PORTFOLIO}`,
+        element: <ApplicationPortfolio />
       },
       {
         path: APP_URLS.BPM_PROCESSES,
@@ -45,7 +50,7 @@ export const routes = [
       {
         path: APP_URLS.MASTER_DATA_VENDORS,
         element: <VendorsPage />
-      },
+      }
     ]
   }
 ]

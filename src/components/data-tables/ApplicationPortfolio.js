@@ -7,7 +7,6 @@ import DataTable from './DataTable'
 const ApplicationPortfolioDataTable = () => {
   const { data, isLoading, isError, error } = useGetApplicationsWithPropertiesQuery()
 
-
   return (
     <DataTable
       data={data}
@@ -50,8 +49,8 @@ const ApplicationPortfolioDataTable = () => {
           key: 'action',
           render: (_, record) => (
             <Space size="middle">
-              <Link to={`${APP_URLS.APPLICATION_PORTFOLIO_VIEWINFO}/${record.props.ApplicationCode}`}>View details</Link>
-              <Link to={`${APP_URLS.APPLICATION_PORTFOLIO_CHANGE_REQUEST}/${record.id}`}>Request change</Link>
+              <Link to={`${APP_URLS.APM_VIEWINFO}/${record.props.ApplicationCode}`}>View details</Link>
+              <Link to={`${APP_URLS.APM_CHANGE_REQUEST}/${record.id}`}>Request change</Link>
             </Space>
           )
         }

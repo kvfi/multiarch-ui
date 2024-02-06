@@ -27,13 +27,12 @@ export const SiteLayout = () => {
       key: 'apps',
       label: 'Applications',
       icon: <Apps />,
-      onClick: () => navigate(APP_URLS.APPLICATION_PORTFOLIO),
       children: [
         {
           key: 'apps_portfolio',
           label: 'Portfolio',
           icon: <TableAlias />,
-          onClick: () => navigate(APP_URLS.APPLICATION_PORTFOLIO)
+          onClick: () => navigate(APP_URLS.APM_APPLICATION_PORTFOLIO)
         }
       ]
     },

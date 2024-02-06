@@ -38,3 +38,15 @@
 .ant-statistic-title {
   font-weight: bold;
 }
+
+.ant-form-item .ant-form-item-label label {
+  font-size: 70%;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.ant-table .ant-table-thead .ant-table-cell {
+  font-size: 80%;
+  font-weight: bolder;
+  text-transform: uppercase;
+}

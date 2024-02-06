@@ -3,12 +3,12 @@ export const APP_URLS = {
   IT_ASSETS: '/ITAssets',
   MASTER_DATA_VENDORS: '/MasterData/Vendors',
   MASTER_DATA_VENDORS_NEW: '/MasterData/Vendors/New',
-  APPLICATION_PORTFOLIO: '/APM',
+  APM_DASHBOARD: '/APM',
+  APM_APPLICATION_PORTFOLIO: '/APM/ApplicationPortfolio',
   APM_NEW_APP: '/APM/ApplicationPortfolio/New',
   APM_VIEWINFO: '/APM/ApplicationPortoflio/ViewInfo',
   APM_CHANGE_REQUEST: '/APM/ChangeRequest',
   APM_CAPABILITY_MAP: '/APM/CapabilityMap',
-  APM_SEARCH_APPLICATION: '/APM/ApplicationPortfolio/SearchApp',
   RISK_MANAGEMENT: '/RiskManagement',
   REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
   BUSINESS_PROCESS_MANAGEMENT: '/BPM',
@@ -32,14 +32,14 @@ export const API_ENDPOINTS = {
 export const MODEL_API_ENDPOINTS = {
   ELEMENTS: '/elements',
   APPLICATIONS_WITH_PROPERTIES: '/applications_with_properties',
-  CAPABILITIES: '/capabilities',
+  CAPABILITIES: '/capabilities'
 }
 
 export const formLayout = {
   labelCol: { span: 24 },
   wrapperCol: { span: 24 },
-  formLayout: "vertical",
-  size: "large"
+  formLayout: 'vertical',
+  size: 'large'
 }
 
 export const tailFormLayout = {
