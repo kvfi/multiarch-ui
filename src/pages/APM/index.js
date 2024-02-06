@@ -1,10 +1,10 @@
-import { Button, Card, Col, Divider, Row, Space, Spin, Statistic } from 'antd'
+import { Card, Col, Divider, Row, Space, Spin, Statistic } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { AppWindow, Briefcase, HeartHandshake, ManualGearbox } from 'tabler-icons-react'
 import { setDescription, setTitle } from '../../ducks/site-info'
-import { useGetBusinessCapabilitiesQuery } from '../../services/model'
-import { rowStyle } from '../../styles'
+import { useGetApplicationsWithPropertiesQuery, useGetBusinessCapabilitiesQuery } from '../../services/model'
+import { Spacer, rowStyle } from '../../styles'
 
 // const { Title } = Typography
 
@@ -37,6 +37,11 @@ const ApplicationPortfolioHome = () => {
   const [form] = Form.useForm() */
 
   const { data: capabilities, isLoading: capabilitiesAreLoading, isFetching: capabilitiesAreFetching } = useGetBusinessCapabilitiesQuery()
+  const {
+    data: applications,
+    isLoading: applicationsAreLoading,
+    isFetching: applicationsAreFetching
+  } = useGetApplicationsWithPropertiesQuery()
 
   useEffect(() => {
     dispatch(setTitle('Application Portfolio'))
@@ -59,7 +64,7 @@ const ApplicationPortfolioHome = () => {
     return <Spin />
   } */
 
-  if (capabilitiesAreLoading || capabilitiesAreFetching) {
+  if (capabilitiesAreLoading || capabilitiesAreFetching || applicationsAreLoading || applicationsAreFetching) {
     return <Spin />
   }
 
@@ -153,18 +158,21 @@ const ApplicationPortfolioHome = () => {
             <Card>
               <Card.Meta title="Business Architecture" avatar={<Briefcase />} />
               <Divider />
-              <Row gutter={16}>
+              <Row {...rowStyle}>
                 <Col span={12}>
                   <Statistic title="Capabilities" value={capabilities.length} />
                 </Col>
                 <Col span={12}>
-                  <Statistic title="Account Balance (CNY)" value={112893} precision={2} />
-                  <Button style={{ marginTop: 16 }} type="primary">
-                    Recharge
-                  </Button>
+                  <Statistic title="Assessed" value={0} />
+                </Col>
+              </Row>
+              <Spacer />
+              <Row {...rowStyle}>
+                <Col span={12}>
+                  <Statistic title="Capabilities" value={capabilities.length} />
                 </Col>
                 <Col span={12}>
-                  <Statistic title="Active Users" value={112893} loading />
+                  <Statistic title="Assessed" value={0} />
                 </Col>
               </Row>
             </Card>
@@ -172,11 +180,35 @@ const ApplicationPortfolioHome = () => {
           <Col span={8}>
             <Card>
               <Card.Meta title="Application Architecture" avatar={<AppWindow />} />
+              <Divider />
+              <Row {...rowStyle}>
+                <Col span={12}>
+                  <Statistic title="No. of Applications" value={applications.length} />
+                </Col>
+                <Col span={12}>
+                  <Statistic title="My Applications" value={0} />
+                </Col>
+              </Row>
+              <Spacer />
+              <Row {...rowStyle}>
+                <Col span={12}>
+                  <Statistic title="COTS" value="?" />
+                </Col>
+                <Col span={12}>
+                  <Statistic title="Homegrown" value={0} />
+                </Col>
+              </Row>
             </Card>
           </Col>
           <Col span={8}>
             <Card>
               <Card.Meta title="Technology Architecture" avatar={<ManualGearbox />} />
+              <Col span={12}>
+                  <Statistic title="No. of Technologies" value="?" />
+                </Col>
+                <Col span={12}>
+                  <Statistic title="Homegrown" value={0} />
+                </Col>
             </Card>
           </Col>
         </Row>

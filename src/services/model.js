@@ -16,6 +16,12 @@ export const elementEndpoints = modelApi.injectEndpoints({
         method: 'GET'
       })
     }),
+    searchApplicationsWithPropertiesByAppCode: builder.query({
+      query: (appCode) => ({
+        url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>ApplicationCode=ilike.${appCode}`,
+        method: 'GET'
+      })
+    }),
     getApplicationsWithPropertiesByAppCode: builder.query({
       query: (appCode) => ({
         url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>ApplicationCode=eq.${appCode}`,
