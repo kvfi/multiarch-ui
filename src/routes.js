@@ -1,6 +1,7 @@
 import { SiteLayout } from './components/layout'
 import ApplicationPortfolio from './pages/APM/ApplicationPortfolio'
 import ApplicationPortfolioMangementDashboard from './pages/APM/Dashboard'
+import ApplicationPortfolioMangementRegisterApplication from './pages/APM/New'
 import AppViewInfo from './pages/APM/ViewInfo'
 import ITAssetsManagementHome from './pages/ITAssets'
 import VendorsPage from './pages/MasterData/VendorsHome'
@@ -30,6 +31,10 @@ export const routes = [
       {
         path: `${APP_URLS.APM_VIEWINFO}/:appCode`,
         element: <AppViewInfo />
+      },
+      {
+        path: `${APP_URLS.APM_NEW_APP}`,
+        element: <ApplicationPortfolioMangementRegisterApplication />
       },
       {
         path: `${APP_URLS.APM_APPLICATION_PORTFOLIO}`,

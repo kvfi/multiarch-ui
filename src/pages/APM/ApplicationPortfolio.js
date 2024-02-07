@@ -2,14 +2,13 @@ import { Button, Checkbox, Flex, Form, Input, Select, Space, Spin, Typography } 
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import ApplicationPortfolioDataTable from '../../components/data-tables/ApplicationPortfolio'
+import ApplicationPortfolioDataTable from '../../components/data-tables/ApplicationPortfolioDataTable'
 import { setDescription, setTitle } from '../../ducks/site-info'
 import {
   useGetApplicationCriticalitiesQuery,
   useGetApplicationStatusesQuery,
   useGetApplicationTypesQuery
 } from '../../services/applications'
-import { useGetApplicationsWithPropertiesQuery } from '../../services/model'
 import { APP_URLS } from '../../utils/constants'
 
 const { Title } = Typography
@@ -41,12 +40,6 @@ const ApplicationPortfolio = () => {
 
   const [form] = Form.useForm()
 
-  const {
-    data: applications,
-    isLoading: applicationsAreLoading,
-    isFetching: applicationsAreFetching
-  } = useGetApplicationsWithPropertiesQuery()
-
   useEffect(() => {
     dispatch(setTitle('Application Portfolio Management'))
     dispatch(
@@ -76,7 +69,7 @@ const ApplicationPortfolio = () => {
     <>
       <Flex justify="flex-end" align="flex-end">
         <Space.Compact>
-          <Button type="primary" onClick={() => navigatate(APP_URLS.APPLICATION_PORTFOLIO_NEW_APP)}>
+          <Button type="primary" onClick={() => navigatate(APP_URLS.APM_NEW_APP)}>
             New Application
           </Button>
           <Button type="primary">Application Landscape</Button>
@@ -143,7 +136,7 @@ const ApplicationPortfolio = () => {
           </Form.Item>
         </Flex>
       </Form>
-      <ApplicationPortfolioDataTable data={applications} isLoading={applicationsAreLoading} isFetching={applicationsAreFetching} />
+      <ApplicationPortfolioDataTable />
     </>
   )
 }

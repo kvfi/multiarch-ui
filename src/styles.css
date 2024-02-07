@@ -39,6 +39,10 @@
   font-weight: bold;
 }
 
+.ant-form-item {
+  margin-bottom: 2rem;
+}
+
 .ant-form-item .ant-form-item-label label {
   font-size: 70%;
   font-weight: bold;

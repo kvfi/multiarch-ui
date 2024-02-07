@@ -13,7 +13,7 @@ export const APP_URLS = {
   REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
   BUSINESS_PROCESS_MANAGEMENT: '/BPM',
   BPM_PROCESSES: '/BPM/Processes',
-  BPM_PROCESSES_NEW: '/BPM/Processes/New',
+  BPM_PROCESSES_NEW: '/BPM/Processes/New'
 }
 
 export const API_ENDPOINTS = {
@@ -33,15 +33,4 @@ export const MODEL_API_ENDPOINTS = {
   ELEMENTS: '/elements',
   APPLICATIONS_WITH_PROPERTIES: '/applications_with_properties',
   CAPABILITIES: '/capabilities'
-}
-
-export const formLayout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 24 },
-  formLayout: 'vertical',
-  size: 'large'
-}
-
-export const tailFormLayout = {
-  wrapperCol: { offset: 8, span: 16 }
 }

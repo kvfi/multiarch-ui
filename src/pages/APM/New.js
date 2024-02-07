@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { setDescription, setTitle } from '../../ducks/site-info'
 
+import { ReloadOutlined } from '@ant-design/icons'
 import { Alert, Button, Col, DatePicker, Flex, Form, Input, Radio, Result, Row, Select, Spin } from 'antd'
 import { debounce } from 'lodash'
 import { useNavigate } from 'react-router'
@@ -9,12 +10,13 @@ import { MoodSmileBeam } from 'tabler-icons-react'
 import { useAddApplicationMutation } from '../../services/applications'
 import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
 import { useGetVendorsQuery } from '../../services/vendors'
-import { APP_URLS, formLayout } from '../../utils/constants'
-import { rowStyle } from '../../styles'
+import { formItemLayout, rowStyle } from '../../styles'
+import { APP_URLS } from '../../utils/constants'
+import { generateRandomString } from '../../utils/fn'
 
 const { TextArea } = Input
 
-const AppNewPage = () => {
+const ApplicationPortfolioMangementRegisterApplication = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [apiDocumentationUrlIsVisible, setApiDocumentationUrlIsVisible] = useState(false)
@@ -37,6 +39,11 @@ const AppNewPage = () => {
     dispatch(setDescription('Add a new application to the Application Portfolio.'))
   }, [])
 
+  const handleGenerateApplicationCodeOnClick = () => {
+    const generatedApplicationCode = generateRandomString(4)
+    form.setFieldValue('application_code', generatedApplicationCode)
+  }
+
   const handleApiAvailabilityChange = () => {
     const apiAvailability = form.getFieldValue('api_availability')
     setApiDocumentationUrlIsVisible(apiAvailability)
@@ -48,10 +55,6 @@ const AppNewPage = () => {
 
   const handleOnFinish = (values) => {
     addApplication(values)
-  }
-
-  if (businessDepartmentsAreLoading || vendorsAreLoading || addApplicationIsLoading) {
-    return <Spin />
   }
 
   if (addApplicationIsSuccess) {
@@ -68,16 +71,18 @@ const AppNewPage = () => {
     )
   }
 
+  if (businessDepartmentsAreLoading || vendorsAreLoading || addApplicationIsLoading) {
+    return <Spin />
+  }
   return (
     <Form
-      {...formLayout}
+      {...formItemLayout}
       form={form}
       initialValues={{
         last_patch_applied: false,
         api_availability: false
       }}
       onFinish={handleOnFinish}
-      autoComplete="off"
     >
       {addApplicationIsError && <Alert message={addApplicationError} type="error" />}
       <Row {...rowStyle}>
@@ -86,9 +91,17 @@ const AppNewPage = () => {
             rules={[{ required: true }]}
             label="Application Code"
             name="application_code"
-            help="AppCode should be 4 representative letter characters."
+            dis
+            help={<Button
+              type="link"
+              icon={<ReloadOutlined />}
+              style={{ fontSize: '90%', margin: 0 }}
+              onClick={() => handleGenerateApplicationCodeOnClick()}
+            >
+              Generate application code
+            </Button>}
           >
-            <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
+            <Input disabled />
           </Form.Item>
           <Form.Item rules={[{ required: true }]} label="Application Name" name="name">
             <Input />
@@ -169,7 +182,7 @@ const AppNewPage = () => {
           </Form.Item>
         </Col>
       </Row>
-      <Row gutter={15}>
+      <Row {...rowStyle}>
         <Col span={24}>
           <Form.Item labelCol={{ span: 4 }} wrapperCol={{ span: 18 }} rules={[{ required: true }]} label="Description" name="description">
             <TextArea rows={6} placeholder="A brief description of the application does and how it supports the daily business." />
@@ -187,4 +200,4 @@ const AppNewPage = () => {
   )
 }
 
-export default AppNewPage
+export default ApplicationPortfolioMangementRegisterApplication

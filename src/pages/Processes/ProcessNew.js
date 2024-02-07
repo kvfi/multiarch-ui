@@ -1,12 +1,11 @@
 import { Form, Spin, Steps } from 'antd'
 import { useEffect, useState } from 'react'
-import { setDescription, setTitle } from '../../ducks/site-info'
 import { useDispatch } from 'react-redux'
-import { contentStyle } from '../../styles'
-import { formLayout } from '../../utils/constants'
-import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
-import NewProcessInformationStep from '../../components/steps/process/NewProcessInformationStep'
 import NewProcessDescriptionStep from '../../components/steps/process/NewProcessDescriptionStep'
+import NewProcessInformationStep from '../../components/steps/process/NewProcessInformationStep'
+import { setDescription, setTitle } from '../../ducks/site-info'
+import { useGetBusinessDepartmentsQuery } from '../../services/business_departments'
+import { contentStyle, formItemLayout } from '../../styles'
 
 const ProcessNew = () => {
   const dispatch = useDispatch()
@@ -61,7 +60,7 @@ const ProcessNew = () => {
   }
 
   return (
-    <Form {...formLayout} form={form} initialValues={{}} onFinish={handleOnFinish} autoComplete="off">
+    <Form {...formItemLayout} form={form} initialValues={{}} onFinish={handleOnFinish}>
       <Steps
         responsive
         current={currentStepNumer}
