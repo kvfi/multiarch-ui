@@ -32,5 +32,6 @@ export const API_ENDPOINTS = {
 export const MODEL_API_ENDPOINTS = {
   ELEMENTS: '/elements',
   APPLICATIONS_WITH_PROPERTIES: '/applications_with_properties',
+  UNINDEXED_APPLICATIONS: '/unindexed_applications',
   CAPABILITIES: '/capabilities'
 }

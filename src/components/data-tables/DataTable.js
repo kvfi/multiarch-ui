@@ -22,12 +22,7 @@ const DataTable = ({ data, isLoading, isError, error, columns }) => {
 
   return (
     <>
-      <Table
-        rowSelection={rowSelection}
-        size="small"
-        columns={columns}
-        dataSource={data}
-      />
+      <Table bordered rowSelection={rowSelection} size="small" columns={columns} dataSource={data} />
     </>
   )
 }

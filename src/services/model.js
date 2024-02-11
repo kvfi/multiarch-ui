@@ -7,7 +7,7 @@ export const elementEndpoints = modelApi.injectEndpoints({
       query: () => ({
         url: MODEL_API_ENDPOINTS.ELEMENTS,
         method: 'GET',
-        params: { class: `eq.ApplicationComponent` }
+        params: { class: 'eq.ApplicationComponent' }
       })
     }),
     getApplicationsWithProperties: builder.query({
@@ -18,13 +18,13 @@ export const elementEndpoints = modelApi.injectEndpoints({
     }),
     searchApplicationsWithPropertiesByAppCode: builder.query({
       query: (appCode) => ({
-        url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>ApplicationCode=ilike.${appCode}`,
+        url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>Code=ilike.${appCode}`,
         method: 'GET'
       })
     }),
     getApplicationsWithPropertiesByAppCode: builder.query({
       query: (appCode) => ({
-        url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>ApplicationCode=eq.${appCode}`,
+        url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?props->>Code=eq.${appCode}`,
         method: 'GET',
         headers: { Accept: 'application/vnd.pgrst.object+json' }
       })
@@ -32,6 +32,12 @@ export const elementEndpoints = modelApi.injectEndpoints({
     getBusinessCapabilities: builder.query({
       query: () => ({
         url: `${MODEL_API_ENDPOINTS.CAPABILITIES}`,
+        method: 'GET'
+      })
+    }),
+    getUnindexedApplications: builder.query({
+      query: () => ({
+        url: MODEL_API_ENDPOINTS.UNINDEXED_APPLICATIONS,
         method: 'GET'
       })
     })
@@ -42,5 +48,6 @@ export const {
   useGetElelementsQuery,
   useGetApplicationsWithPropertiesQuery,
   useGetApplicationsWithPropertiesByAppCodeQuery,
-  useGetBusinessCapabilitiesQuery
+  useGetBusinessCapabilitiesQuery,
+  useGetUnindexedApplicationsQuery
 } = elementEndpoints

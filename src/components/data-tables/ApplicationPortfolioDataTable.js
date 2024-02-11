@@ -5,6 +5,10 @@ import { useGetApplicationsWithPropertiesQuery } from '../../services/model'
 import { APP_URLS } from '../../utils/constants'
 import TableActionButton from '../buttons/TableActionButton'
 import DataTable from './DataTable'
+import { Typography } from 'antd'
+
+const { Text } = Typography
+
 const ApplicationPortfolioDataTable = () => {
   const { data, isLoading, isError, error } = useGetApplicationsWithPropertiesQuery()
 
@@ -17,32 +21,22 @@ const ApplicationPortfolioDataTable = () => {
       columns={[
         {
           title: 'App Code',
-          dataIndex: ['props', 'ApplicationCode'],
-          key: 'application_code'
+          key: 'code',
+          render: (_, record) => <Text copyable>{record.props?.Code}</Text>
         },
         {
           title: 'App Name',
-          dataIndex: 'name',
+          dataIndex: ['props', 'Name'],
           key: 'name'
         },
         {
-          title: 'Description',
-          dataIndex: 'description',
-          key: 'description'
-        },
-        {
           title: 'Business supporting',
-          dataIndex: 'business_department',
+          dataIndex: ['props', 'BusinessDepartment'],
           key: 'business_department'
         },
         {
           title: 'Application Type',
-          dataIndex: 'application_type',
-          key: 'application_type'
-        },
-        {
-          title: 'Application Type',
-          dataIndex: 'application_type',
+          dataIndex: ['props', 'Type'],
           key: 'application_type'
         },
         {
@@ -52,12 +46,12 @@ const ApplicationPortfolioDataTable = () => {
             <TableActionButton
               items={[
                 {
-                  label: <Link to={`${APP_URLS.APM_VIEWINFO}/${record.props.ApplicationCode}`}>View details</Link>,
+                  label: <Link to={`${APP_URLS.APM_VIEWINFO}/${record.props.Code}`}>View details</Link>,
                   key: 'view',
                   icon: <Eye />
                 },
                 {
-                  label: <Link to={`${APP_URLS.APM_CHANGE_REQUEST}/${record.props.ApplicationCode}`}>Request change</Link>,
+                  label: <Link to={`${APP_URLS.APM_CHANGE_REQUEST}/${record.props.Code}`}>Request change</Link>,
                   key: 'change',
                   icon: <EditCircle />
                 },

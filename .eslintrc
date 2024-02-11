@@ -23,6 +23,7 @@
     "no-param-reassign": "error",
     "no-plusplus": "off",
     "no-return-assign": "error",
+    "quotes": [2, "single", { "avoidEscape": true }],
     "no-underscore-dangle": "off",
     "no-unused-vars": "error",
     "object-curly-newline": "off",

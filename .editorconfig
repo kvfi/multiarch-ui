@@ -13,6 +13,7 @@ ij_formatter_tags_enabled = true
 ij_smart_tabs = false
 ij_visual_guides = 100
 ij_wrap_on_typing = false
+quote_type = single
 
 [*.css]
 ij_continuation_indent_size = 2

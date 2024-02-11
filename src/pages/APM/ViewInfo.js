@@ -12,7 +12,7 @@ const AppViewInfo = () => {
   const dispatch = useDispatch()
   let { appCode } = useParams()
   const { data, isLoading } = useGetApplicationsWithPropertiesByAppCodeQuery(appCode)
-  
+
   useEffect(() => {
     dispatch(setTitle(`View Application Information: ${appCode}`))
     dispatch(
@@ -29,111 +29,98 @@ const AppViewInfo = () => {
     <Tabs
       defaultActiveKey="profile"
       type="card"
-      size="large"
       items={[
         {
-          label: `Application Profile`,
+          label: 'Application Profile',
           key: 'profile',
           children: (
             <Descriptions
+              layout="vertical"
               labelStyle={{ fontWeight: 'bold' }}
               items={[
                 {
                   key: 'name',
                   label: 'Name',
-                  children: data.props?.ApplicationName,
-                  span: 2
+                  children: data.props?.Name,
+                  span: 1
                 },
                 {
                   key: 'documentation',
                   label: 'Description',
                   children: data.documentation,
-                  span: 2
+                  span: 3
                 },
                 {
                   key: 'portfolio',
                   label: 'Porfolio',
-                  children: data.props?.Portfolio,
-                  span: 2
+                  children: data.props?.Portfolio
                 },
                 {
                   key: 'application_type',
                   label: 'Application type',
-                  children: data.props?.ApplicationType,
-                  span: 2
+                  children: data.props?.Type
                 },
                 {
                   key: 'architecture_type',
                   label: 'Architecture type',
-                  children: data.props?.ArchitectureType,
-                  span: 2
+                  children: data.props?.ArchitectureType
                 },
                 {
                   key: 'install_type',
                   label: 'Install type',
-                  children: data.props?.InstallType,
-                  span: 2
+                  children: data.props?.InstallType
                 },
                 {
                   key: 'Platform',
                   label: 'Platform',
-                  children: data.props?.Platform,
-                  span: 2
+                  children: data.props?.Platform
                 },
                 {
                   key: 'business_unit',
                   label: 'Business unit',
-                  children: data.props?.BusinessUnit,
-                  span: 2
+                  children: data.props?.BusinessUnit
                 },
                 {
                   key: 'department',
                   label: 'Department',
-                  children: data.props?.Department,
-                  span: 2
+                  children: data.props?.Department
                 },
                 {
                   key: 'status',
                   label: 'Status',
-                  children: data.props?.Status,
-                  span: 2
+                  children: data.props?.Status
                 },
                 {
                   key: 'scoring',
                   label: 'Scoring',
-                  children: data.props?.Scoring,
-                  span: 2
+                  children: data.props?.Scoring
                 },
                 {
                   key: 'application_category',
                   label: 'Application category',
-                  children: data.props?.ApplicationCategory,
-                  span: 2
+                  children: data.props?.ApplicationCategory
                 },
                 {
                   key: 'application_family',
                   label: 'Application family',
-                  children: data.props?.ApplicationFamily,
-                  span: 2
+                  children: data.props?.ApplicationFamily
                 },
                 {
                   key: 'technology_stack',
                   label: 'Technology stack',
-                  children: data.props?.TechnologyStack,
-                  span: 2
+                  children: data.props?.TechnologyStack
                 },
                 {
                   key: 'user_base',
                   label: 'User base',
-                  children: data.props?.TechnologyStack,
-                  span: 2
+                  children: data.props?.TechnologyStack
                 }
               ]}
             />
           )
         },
         {
-          label: `Properties`,
+          label: 'Properties',
           key: 'props',
           children: (
             <SyntaxHighlighter language="json" style={docco}>

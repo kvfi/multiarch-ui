@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { AppWindow, Briefcase, ManualGearbox } from 'tabler-icons-react'
 import { setDescription, setTitle } from '../../ducks/site-info'
-import { useGetApplicationsWithPropertiesQuery, useGetBusinessCapabilitiesQuery } from '../../services/model'
+import {
+  useGetApplicationsWithPropertiesQuery,
+  useGetBusinessCapabilitiesQuery,
+  useGetUnindexedApplicationsQuery
+} from '../../services/model'
 import { Spacer, rowStyle } from '../../styles'
 import { APP_URLS } from '../../utils/constants'
 
@@ -12,9 +16,13 @@ const { Text } = Typography
 
 const ApplicationPortfolioMangementDashboard = () => {
   const dispatch = useDispatch()
-  
 
   const { data: capabilities, isLoading: capabilitiesAreLoading, isFetching: capabilitiesAreFetching } = useGetBusinessCapabilitiesQuery()
+  const {
+    data: unindexedApplications,
+    isLoading: unindexedApplicationsAreLoading,
+    isFetching: unindexedApplicationsAreFetching
+  } = useGetUnindexedApplicationsQuery()
   const {
     data: applications,
     isLoading: applicationsAreLoading,
@@ -31,9 +39,14 @@ const ApplicationPortfolioMangementDashboard = () => {
     )
   }, [])
 
- 
-
-  if (capabilitiesAreLoading || capabilitiesAreFetching || applicationsAreLoading || applicationsAreFetching) {
+  if (
+    capabilitiesAreLoading ||
+    capabilitiesAreFetching ||
+    applicationsAreLoading ||
+    applicationsAreFetching ||
+    unindexedApplicationsAreLoading ||
+    unindexedApplicationsAreFetching
+  ) {
     return <Spin />
   }
 
@@ -46,7 +59,6 @@ const ApplicationPortfolioMangementDashboard = () => {
           display: 'flex'
         }}
       >
-        
         <Row {...rowStyle}>
           <Col span={8}>
             <Card>
@@ -93,10 +105,17 @@ const ApplicationPortfolioMangementDashboard = () => {
               <Spacer />
               <Row {...rowStyle}>
                 <Col span={12}>
-                  <Statistic title="COTS" value="?" />
+                  <Statistic
+                    title="Non-compliant Apps"
+                    valueStyle={{
+                      color: '#cf1322'
+                    }}
+                    value={`${unindexedApplications.length} `}
+                    // todo add informational tooltip to explain what unindexed applications are
+                  />
                 </Col>
                 <Col span={12}>
-                  <Statistic title="Homegrown" value={0} />
+                  <Statistic title="COTS / Homegrown" value="? / ?" />
                 </Col>
               </Row>
               <Divider />
