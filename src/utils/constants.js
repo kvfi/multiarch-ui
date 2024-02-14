@@ -9,6 +9,7 @@ export const APP_URLS = {
   APM_VIEWINFO: '/APM/ApplicationPortoflio/ViewInfo',
   APM_CHANGE_REQUEST: '/APM/ChangeRequest',
   APM_CAPABILITY_MAP: '/APM/CapabilityMap',
+  APM_SEARCH_APPLICATIONS: '/APM/SearchApplications',
   RISK_MANAGEMENT: '/RiskManagement',
   REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
   BUSINESS_PROCESS_MANAGEMENT: '/BPM',

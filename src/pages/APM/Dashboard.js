@@ -123,7 +123,7 @@ const ApplicationPortfolioMangementDashboard = () => {
                 Application Portfolio
               </Text>
               <Space.Compact block>
-                <Link to={APP_URLS.APM_SEARCH_APPLICATION}>Search Application</Link>
+                <Link to={APP_URLS.APM_SEARCH_APPLICATIONS}>Search Application</Link>
               </Space.Compact>
             </Card>
           </Col>

@@ -1,17 +1,14 @@
+import { Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { EditCircle, Eye, ZoomExclamation } from 'tabler-icons-react'
-import { useGetApplicationsWithPropertiesQuery } from '../../services/model'
 import { APP_URLS } from '../../utils/constants'
 import TableActionButton from '../buttons/TableActionButton'
 import DataTable from './DataTable'
-import { Typography } from 'antd'
 
 const { Text } = Typography
 
-const ApplicationPortfolioDataTable = () => {
-  const { data, isLoading, isError, error } = useGetApplicationsWithPropertiesQuery()
-
+const ApplicationPortfolioDataTable = ({ data, isLoading, isError, error }) => {
   return (
     <DataTable
       data={data}

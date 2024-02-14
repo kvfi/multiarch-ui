@@ -17,7 +17,9 @@ export const formItemLayout = {
 }
 
 export const tailFormLayout = {
-  wrapperCol: { offset: 8, span: 16 }
+  labelCol: { span: 6 },
+  wrapperCol: { span: 24 },
+  size: 'small'
 }
 
 export const Spacer = () => {

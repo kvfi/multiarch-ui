@@ -12,4 +12,4 @@ export const bpmEndpoints = coreApi.injectEndpoints({
   })
 })
 
-export const { useGetBusinessProcessesQuery } = bpmEndpoints
+export const { useGetBusinessProcessesQuery, useLazyGetBusinessProcessesQuery } = bpmEndpoints

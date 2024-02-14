@@ -11,10 +11,13 @@ export const elementEndpoints = modelApi.injectEndpoints({
       })
     }),
     getApplicationsWithProperties: builder.query({
-      query: () => ({
-        url: MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES,
-        method: 'GET'
-      })
+      query: (queryOptions) => {
+        const searchParams = new URLSearchParams(queryOptions).toString()
+        return {
+          url: `${MODEL_API_ENDPOINTS.APPLICATIONS_WITH_PROPERTIES}?${searchParams}`,
+          method: 'GET'
+        }
+      }
     }),
     searchApplicationsWithPropertiesByAppCode: builder.query({
       query: (appCode) => ({
@@ -47,6 +50,7 @@ export const elementEndpoints = modelApi.injectEndpoints({
 export const {
   useGetElelementsQuery,
   useGetApplicationsWithPropertiesQuery,
+  useLazyGetApplicationsWithPropertiesQuery,
   useGetApplicationsWithPropertiesByAppCodeQuery,
   useGetBusinessCapabilitiesQuery,
   useGetUnindexedApplicationsQuery

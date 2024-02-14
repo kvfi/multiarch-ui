@@ -9,6 +9,7 @@ import {
   useGetApplicationStatusesQuery,
   useGetApplicationTypesQuery
 } from '../../services/applications'
+import { useLazyGetApplicationsWithPropertiesQuery } from '../../services/model'
 import { APP_URLS } from '../../utils/constants'
 
 const { Title } = Typography
@@ -16,6 +17,9 @@ const { Title } = Typography
 const ApplicationPortfolio = () => {
   const dispatch = useDispatch()
   const navigatate = useNavigate()
+  const [form] = Form.useForm()
+
+  const [searchApplications, { data, isLoading, isError, error }] = useLazyGetApplicationsWithPropertiesQuery()
 
   const {
     data: applicationStatuses,
@@ -38,7 +42,6 @@ const ApplicationPortfolio = () => {
     isFetching: applicationTypesAreFetching
   } = useGetApplicationTypesQuery()
 
-  const [form] = Form.useForm()
 
   useEffect(() => {
     dispatch(setTitle('Application Portfolio Management'))
@@ -51,7 +54,7 @@ const ApplicationPortfolio = () => {
   }, [])
 
   const handleOnFinish = () => {
-    return
+    searchApplications({ 'props->>Code': `like.${form.getFieldValue('code')}*` })
   }
 
   if (
@@ -90,7 +93,7 @@ const ApplicationPortfolio = () => {
         autoComplete="off"
       >
         <Flex gap="small" align="flex-end">
-          <Form.Item label="AppCode" name="application_code">
+          <Form.Item label="Application Code" name="code">
             <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
           </Form.Item>
           {applicationStatusesIsError && 'An error was encountered while loading the application statuses.'}
@@ -136,7 +139,7 @@ const ApplicationPortfolio = () => {
           </Form.Item>
         </Flex>
       </Form>
-      <ApplicationPortfolioDataTable />
+      <ApplicationPortfolioDataTable data={data} isLoading={isLoading} isError={isError} error={error} />
     </>
   )
 }
