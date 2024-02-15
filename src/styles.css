@@ -43,8 +43,9 @@
   margin-bottom: .5rem;
 }
 
-.ant-form-item-label  {
+.ant-form-item-row .ant-form-item-label {
   padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .ant-select {

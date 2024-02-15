@@ -6,13 +6,15 @@ import { applicationEndpoints } from './services/applications'
 import { businessDepartmentEndpoints } from './services/business_departments'
 import { vendorsEndpoints } from './services/vendors'
 import { elementEndpoints } from './services/model'
+import { eapEndpoints } from './services/eap'
 
 const reducer = combineReducers({
   siteInfo: siteInfoReducer,
   [applicationEndpoints.reducerPath]: applicationEndpoints.reducer,
   [businessDepartmentEndpoints.reducerPath]: businessDepartmentEndpoints.reducer,
   [vendorsEndpoints.reducerPath]: vendorsEndpoints.reducer,
-  [elementEndpoints.reducerPath]: elementEndpoints.reducer
+  [elementEndpoints.reducerPath]: elementEndpoints.reducer,
+  [eapEndpoints.reducerPath]: eapEndpoints.reducer
 })
 
 export const store = configureStore({
@@ -22,7 +24,8 @@ export const store = configureStore({
       applicationEndpoints.middleware,
       businessDepartmentEndpoints.middleware,
       vendorsEndpoints.middleware,
-      elementEndpoints.middleware
+      elementEndpoints.middleware,
+      eapEndpoints.middleware
     )
 })
 

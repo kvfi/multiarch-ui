@@ -27,6 +27,10 @@ export const API_ENDPOINTS = {
   VENDORS: '/vendors',
   APM: {
     BUSINESS_PROCESS: '/bpm/processes'
+  },
+  CORE: {
+    LIFECYCLE_STAGES: '/eap/lifecycle-stages',
+    LIFECYCLE_STAGE_TYPES: '/eap/lifecycle-stage-types'
   }
 }
 

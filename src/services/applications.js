@@ -44,12 +44,20 @@ export const applicationEndpoints = coreApi.injectEndpoints({
         method: 'POST',
         body: body
       })
+    }),
+    getApplicationByAppCode: builder.query({
+      query: (appCode) => ({
+        url: `${API_ENDPOINTS.APPLICATIONS}/${appCode}`,
+        method: 'GET'
+      })
     })
   })
 })
 
 export const {
   useGetApplicationsQuery,
+  useGetApplicationByAppCodeQuery,
+  useLazyGetApplicationByAppCodeQuery,
   useGetApplicationCriticalitiesQuery,
   useGetApplicationStatusesQuery,
   useGetApplicationEnvironmentsQuery,

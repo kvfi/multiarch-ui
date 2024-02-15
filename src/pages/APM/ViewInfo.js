@@ -11,6 +11,7 @@ import { useGetApplicationStatusesQuery } from '../../services/applications'
 import { useGetBusinessProcessesQuery } from '../../services/bpm'
 import { useGetApplicationsWithPropertiesByAppCodeQuery } from '../../services/model'
 import { rowStyle, tailFormLayout } from '../../styles'
+import LifecycleStageBox from '../../components/boxes/LifecycleStageBox'
 
 const AppViewInfo = () => {
   const dispatch = useDispatch()
@@ -138,14 +139,8 @@ const AppViewInfo = () => {
                       placeholder="Select status"
                     />
                   </Form.Item>
-                  <Form.Item label="Status" name="status">
-                    <Select
-                      popupMatchSelectWidth={false}
-                      options={applicationStatuses.items.map((status) => {
-                        return { value: status.id, label: status.name }
-                      })}
-                      placeholder="Select status"
-                    />
+                  <Form.Item label="Life Cycle Stage" name="lifecycle_stage">
+                    <LifecycleStageBox lifecycleStage={data?.lifecycleStage} />
                   </Form.Item>
                 </Col>
                 <Descriptions
