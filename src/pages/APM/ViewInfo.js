@@ -1,23 +1,47 @@
 import { useDispatch } from 'react-redux'
 
-import { AutoComplete, Col, Descriptions, Divider, Form, Input, Row, Select, Spin, Tabs } from 'antd'
+import { DashboardFilled, SettingFilled, SlidersFilled, WarningFilled } from '@ant-design/icons'
+import { AutoComplete, Col, Divider, Form, Input, Row, Select, Spin, Tabs } from 'antd'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { Hash } from 'tabler-icons-react'
-import { setDescription, setTitle } from '../../ducks/site-info'
-import { useGetApplicationStatusesQuery } from '../../services/applications'
-import { useGetBusinessProcessesQuery } from '../../services/bpm'
-import { useGetApplicationsWithPropertiesByAppCodeQuery } from '../../services/model'
-import { rowStyle, tailFormLayout } from '../../styles'
 import LifecycleStageBox from '../../components/boxes/LifecycleStageBox'
+import ApplicationDependencyDataTable from '../../components/data-tables/ApplicationDependencyDataTable'
+import RiskRegistryDataTable from '../../components/data-tables/RiskRegistryDataTable'
+import { setDescription, setTitle } from '../../ducks/site-info'
+import {
+  useGetApplicationArchitectureTypesQuery,
+  useGetApplicationCategoriesQuery,
+  useGetApplicationFamiliesQuery,
+  useGetApplicationInstallTypesQuery,
+  useGetApplicationSourcingStrategiesQuery,
+  useGetApplicationStatusesQuery,
+  useGetApplicationTypesQuery
+} from '../../services/applications'
+import { useGetBusinessProcessesQuery } from '../../services/bpm'
+import { useGetPlatformsQuery, useGetTechnologiesQuery } from '../../services/eap'
+import { useGetRisksQuery } from '../../services/irm'
+import { useGetApplicationsWithPropertiesByAppCodeQuery, useLazyGetApplicationDependenciesQuery } from '../../services/model'
+import { rowStyle, tailFormLayout } from '../../styles'
 
 const AppViewInfo = () => {
   const dispatch = useDispatch()
   const [form] = Form.useForm()
   let { appCode } = useParams()
   const { data, isLoading } = useGetApplicationsWithPropertiesByAppCodeQuery(appCode)
+  const { data: applicationTypes, applicationTypesIsLoading } = useGetApplicationTypesQuery()
+  const { data: sourcingStrategies, sourcingStrategiesIsLoading } = useGetApplicationSourcingStrategiesQuery()
+  const { data: architectureTypes, architectureTypeIsLoading } = useGetApplicationArchitectureTypesQuery()
+  const { data: installTypes, installTypeIsLoading } = useGetApplicationInstallTypesQuery()
+  const { data: categories, categoriesIsLoading } = useGetApplicationCategoriesQuery()
+  const { data: platforms, platformsIsLoading } = useGetPlatformsQuery()
+  const { data: families, familiesIsLoading } = useGetApplicationFamiliesQuery()
+  const { data: technologies, technologiesIsLoading } = useGetTechnologiesQuery()
+  const { data: risks, risksIsLoading } = useGetRisksQuery()
+  const [getApplicationDependencies, { data: applicationDependencies, applicationDependenciesIsLoading }] =
+    useLazyGetApplicationDependenciesQuery()
 
   const {
     data: applicationStatuses,
@@ -25,12 +49,11 @@ const AppViewInfo = () => {
     isFetching: applicationStatusesAreFetching
   } = useGetApplicationStatusesQuery()
 
-  const /*fetchBusinessProcesses,*/
-    {
-      data: businessProcesses,
-      isLoading: businessProcessesAreLoading,
-      isFetching: businessProcessesAreFetching
-    } = useGetBusinessProcessesQuery()
+  const {
+    data: businessProcesses,
+    isLoading: businessProcessesAreLoading,
+    isFetching: businessProcessesAreFetching
+  } = useGetBusinessProcessesQuery()
 
   useEffect(() => {
     dispatch(setTitle(`View Application Information: ${appCode}`))
@@ -41,6 +64,10 @@ const AppViewInfo = () => {
       )
     )
   }, [])
+
+  useEffect(() => {
+    getApplicationDependencies(data?.id)
+  }, [data?.id])
 
   const renderTitle = (title) => (
     <span>
@@ -85,24 +112,34 @@ const AppViewInfo = () => {
     applicationStatusesAreLoading ||
     applicationStatusesAreFetching ||
     businessProcessesAreLoading ||
-    businessProcessesAreFetching
+    businessProcessesAreFetching ||
+    applicationTypesIsLoading ||
+    sourcingStrategiesIsLoading ||
+    architectureTypeIsLoading ||
+    installTypeIsLoading ||
+    categoriesIsLoading ||
+    platformsIsLoading ||
+    familiesIsLoading ||
+    technologiesIsLoading ||
+    applicationDependenciesIsLoading
   )
     return <Spin />
 
   return (
     <Tabs
-      defaultActiveKey="profile"
-      type="card"
+      defaultActiveKey="overview"
       items={[
         {
-          label: 'Profile',
-          key: 'profile',
+          label: 'Overview',
+          key: 'overview',
+          icon: <DashboardFilled />,
           children: (
             <Form
               {...tailFormLayout}
               form={form}
               initialValues={{
                 name: data.props.Name,
+                model_id: data.id,
                 include_external_apps: true
               }}
               onFinish={handleOnFinish}
@@ -110,6 +147,12 @@ const AppViewInfo = () => {
             >
               <Row {...rowStyle}>
                 <Col span={12}>
+                  <Form.Item label="Name" name="name">
+                    <Input />
+                  </Form.Item>
+                  <Form.Item label="Model ID" name="model_id">
+                    <Input disabled />
+                  </Form.Item>
                   <Form.Item label="Business process" name="business_process">
                     <AutoComplete
                       options={[
@@ -125,8 +168,41 @@ const AppViewInfo = () => {
                       <Input.Search placeholder="Search business processes" />
                     </AutoComplete>
                   </Form.Item>
-                  <Form.Item label="Name" name="name">
-                    <Input />
+                  <Form.Item label="Application type" name="type">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={applicationTypes.items.map((type) => {
+                        return { value: type.id, label: type.name }
+                      })}
+                      placeholder="Select type"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Architecture type" name="architecture_type_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={architectureTypes.items.map((architectureType) => {
+                        return { value: architectureType.id, label: architectureType.name }
+                      })}
+                      placeholder="Select architecture type"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Install type" name="install_type_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={installTypes.items.map((installType) => {
+                        return { value: installType.id, label: installType.name }
+                      })}
+                      placeholder="Select install type"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Applicaton category" name="category_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={categories.items.map((category) => {
+                        return { value: category.id, label: category.name }
+                      })}
+                      placeholder="Select category"
+                    />
                   </Form.Item>
                 </Col>
                 <Col span={12}>
@@ -140,108 +216,77 @@ const AppViewInfo = () => {
                     />
                   </Form.Item>
                   <Form.Item label="Life Cycle Stage" name="lifecycle_stage">
-                    <LifecycleStageBox lifecycleStage={data?.lifecycleStage} />
+                    <LifecycleStageBox lifecycleStage={data?.lifecycleStage} appCode={appCode} />
+                  </Form.Item>
+                  <Form.Item label="Sourcing strategy" name="sourcing_strategy_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={sourcingStrategies.items.map((sourcingStrategy) => {
+                        return { value: sourcingStrategy.id, label: sourcingStrategy.name }
+                      })}
+                      placeholder="Select sourcing strategy"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Application familiy" name="family_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={families.items.map((family) => {
+                        return { value: family.id, label: family.name }
+                      })}
+                      placeholder="Select family"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Platform" name="platform_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={platforms.items.map((platform) => {
+                        return { value: platform.id, label: platform.name }
+                      })}
+                      placeholder="Select platform"
+                    />
+                  </Form.Item>
+                  <Form.Item label="Technoly Stack" name="technology_id">
+                    <Select
+                      popupMatchSelectWidth={false}
+                      options={technologies.items.map((technology) => {
+                        return { value: technology.id, label: technology.name }
+                      })}
+                      placeholder="Select technology stack"
+                    />
                   </Form.Item>
                 </Col>
-                <Descriptions
-                  layout="vertical"
-                  labelStyle={{ fontWeight: 'bold' }}
-                  items={[
-                    {
-                      key: 'name',
-                      label: 'Name',
-                      children: data.props?.Name,
-                      span: 2
-                    },
-                    {
-                      key: 'Status',
-                      label: 'Status',
-                      children: data.props?.Status,
-                      span: 2
-                    },
-                    {
-                      key: 'documentation',
-                      label: 'Description',
-                      children: data.documentation,
-                      span: 3
-                    },
-                    {
-                      key: 'portfolio',
-                      label: 'Porfolio',
-                      children: data.props?.Portfolio
-                    },
-                    {
-                      key: 'application_type',
-                      label: 'Application type',
-                      children: data.props?.Type
-                    },
-                    {
-                      key: 'architecture_type',
-                      label: 'Architecture type',
-                      children: data.props?.ArchitectureType
-                    },
-                    {
-                      key: 'install_type',
-                      label: 'Install type',
-                      children: data.props?.InstallType
-                    },
-                    {
-                      key: 'Platform',
-                      label: 'Platform',
-                      children: data.props?.Platform
-                    },
-                    {
-                      key: 'business_unit',
-                      label: 'Business unit',
-                      children: data.props?.BusinessUnit
-                    },
-                    {
-                      key: 'department',
-                      label: 'Department',
-                      children: data.props?.Department
-                    },
-                    {
-                      key: 'status',
-                      label: 'Status',
-                      children: data.props?.Status
-                    },
-                    {
-                      key: 'scoring',
-                      label: 'Scoring',
-                      children: data.props?.Scoring
-                    },
-                    {
-                      key: 'application_category',
-                      label: 'Application category',
-                      children: data.props?.ApplicationCategory
-                    },
-                    {
-                      key: 'application_family',
-                      label: 'Application family',
-                      children: data.props?.ApplicationFamily
-                    },
-                    {
-                      key: 'technology_stack',
-                      label: 'Technology stack',
-                      children: data.props?.TechnologyStack
-                    },
-                    {
-                      key: 'user_base',
-                      label: 'User base',
-                      children: data.props?.TechnologyStack
-                    }
-                  ]}
-                />
-                <Divider orientation="left" plain key="risks" style={{ fontWeight: 'bold' }}>
-                  Risks
-                </Divider>
+                <Form.Item label="Documentation" name="documentation" style={{ width: '100%' }}>
+                  <Input.TextArea disabled />
+                </Form.Item>
+                <Divider orientation="left" plain key="Ownership" style={{ fontWeight: 'bold' }}></Divider>
+                <Divider orientation="left" plain key="Support" style={{ fontWeight: 'bold' }}></Divider>
               </Row>
             </Form>
           )
         },
         {
+          label: 'Associated Risks',
+          key: 'risks',
+          icon: <WarningFilled />,
+          children: <RiskRegistryDataTable data={risks.items} isLoading={risksIsLoading} isError={false} error={[]} />
+        },
+        {
+          label: 'Dependencies',
+          key: 'dependencies',
+          icon: <SlidersFilled />,
+          children: (
+            <ApplicationDependencyDataTable
+              data={applicationDependencies}
+              isLoading={applicationDependenciesIsLoading}
+              isError={false}
+              error={[]}
+            />
+          )
+        },
+        {
           label: 'Properties',
           key: 'props',
+          icon: <SettingFilled />,
           children: (
             <SyntaxHighlighter language="json" style={docco}>
               {JSON.stringify(data.props, null, 2)}

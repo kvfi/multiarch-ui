@@ -1,12 +1,13 @@
-import { Col, DatePicker, Form, Modal, Row, Select, Space, Spin, Typography } from 'antd'
+import { Alert, Col, DatePicker, Form, Modal, Row, Select, Space, Spin, Typography } from 'antd'
 import { useState } from 'react'
 import { rowStyle, tailFormLayout } from '../../styles'
 import { useGetLifecycleStageTypesQuery } from '../../services/eap'
 
 const { Text, Link } = Typography
 
-const LifecycleStageBox = ({ lifecycleStage }) => {
+const LifecycleStageBox = ({ lifecycleStage, appCode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [hasFormError, setHasFormError] = useState(false)
   const [form] = Form.useForm()
 
   const { data, isLoading } = useGetLifecycleStageTypesQuery()
@@ -16,7 +17,9 @@ const LifecycleStageBox = ({ lifecycleStage }) => {
   }
 
   const handleOk = () => {
-    setIsModalOpen(false)
+    if (!form.getFieldValue('stage_type') || !form.getFieldValue('start_date') || !form.getFieldValue('end_date')) {
+      setHasFormError(true)
+    }
   }
 
   const handleCancel = () => {
@@ -38,23 +41,15 @@ const LifecycleStageBox = ({ lifecycleStage }) => {
           <Text>{lifecycleStage.type.name}</Text>
         </>
       ) : (
-        <Space align="end">
+        <Space>
           <Text>No Lifecycle stage defined.</Text>
           <Link onClick={showModal}>Assign now.</Link>
         </Space>
       )}
-      <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-        <Form
-          {...tailFormLayout}
-          form={form}
-          initialValues={{
-            name: data.props.Name,
-            include_external_apps: true
-          }}
-          onFinish={handleOnFinish}
-          autoComplete="off"
-        >
-          <Form.Item label="Stage type" name="stage_type">
+      <Modal title={`Pick a lifecycle stage for ${appCode}`} open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        {hasFormError && <Alert type="error" message="Please verify the entered values." style={{ marginBottom: '1rem' }} />}
+        <Form {...tailFormLayout} form={form} initialValues={{}} onFinish={handleOnFinish} autoComplete="off">
+          <Form.Item label="Stage type" name="stage_type" required>
             <Select
               popupMatchSelectWidth={false}
               options={data.items.map((lifecycleStageType) => {
@@ -65,12 +60,12 @@ const LifecycleStageBox = ({ lifecycleStage }) => {
           </Form.Item>
           <Row {...rowStyle}>
             <Col span={12}>
-              <Form.Item label="Start date" name="start_date">
+              <Form.Item label="Start date" name="start_date" required>
                 <DatePicker />
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="End date" name="end_date">
+              <Form.Item label="End date" name="end_date" required>
                 <DatePicker />
               </Form.Item>
             </Col>

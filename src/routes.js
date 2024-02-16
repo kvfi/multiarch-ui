@@ -8,7 +8,7 @@ import VendorsPage from './pages/MasterData/VendorsHome'
 import { NotFound } from './pages/not-found'
 import BPMHomePage from './pages/Processes'
 import ProcessNew from './pages/Processes/ProcessNew'
-import RequirementsRepositoryHome from './pages/RequirementsRepository'
+import RequirementsRepositoryHome from './pages/RM'
 import { APP_URLS } from './utils/constants'
 
 export const routes = [

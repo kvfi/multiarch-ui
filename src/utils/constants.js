@@ -26,11 +26,21 @@ export const API_ENDPOINTS = {
   BUSINESS_DEPARTMENTS: '/objects/departments',
   VENDORS: '/vendors',
   APM: {
-    BUSINESS_PROCESS: '/bpm/processes'
+    BUSINESS_PROCESS: '/bpm/processes',
+    SOURCING_STRATEGIES: '/applications/sourcing-strategies',
+    ARCHITECTURE_TYPES: '/applications/architecture-types',
+    INSTALL_TYPES: '/applications/install-types',
+    CATEGORIES: '/applications/categories',
+    FAMILIES: '/applications/families'
   },
   CORE: {
     LIFECYCLE_STAGES: '/eap/lifecycle-stages',
-    LIFECYCLE_STAGE_TYPES: '/eap/lifecycle-stage-types'
+    LIFECYCLE_STAGE_TYPES: '/eap/lifecycle-stages/types',
+    PLATFORMS: '/eap/platforms',
+    TECHNOLOGIES: '/eap/technologies'
+  },
+  IRM: {
+    RISKS: '/irm/risks'
   }
 }
 
@@ -38,5 +48,6 @@ export const MODEL_API_ENDPOINTS = {
   ELEMENTS: '/elements',
   APPLICATIONS_WITH_PROPERTIES: '/applications_with_properties',
   UNINDEXED_APPLICATIONS: '/unindexed_applications',
+  APPLICATION_DEPENDENCIES: '/application_dependencies',
   CAPABILITIES: '/capabilities'
 }

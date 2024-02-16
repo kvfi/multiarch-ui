@@ -43,6 +43,12 @@ export const elementEndpoints = modelApi.injectEndpoints({
         url: MODEL_API_ENDPOINTS.UNINDEXED_APPLICATIONS,
         method: 'GET'
       })
+    }),
+    getApplicationDependencies: builder.query({
+      query: (modelId) => ({
+        url: `${MODEL_API_ENDPOINTS.APPLICATION_DEPENDENCIES}?element_id=eq.${modelId}`,
+        method: 'GET'
+      })
     })
   })
 })
@@ -53,5 +59,7 @@ export const {
   useLazyGetApplicationsWithPropertiesQuery,
   useGetApplicationsWithPropertiesByAppCodeQuery,
   useGetBusinessCapabilitiesQuery,
-  useGetUnindexedApplicationsQuery
+  useGetUnindexedApplicationsQuery,
+  useGetApplicationDependenciesQuery,
+  useLazyGetApplicationDependenciesQuery
 } = elementEndpoints
