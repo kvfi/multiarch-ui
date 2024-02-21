@@ -140,7 +140,9 @@ const AppViewInfo = () => {
               initialValues={{
                 name: data.props.Name,
                 model_id: data.id,
-                include_external_apps: true
+                include_external_apps: true,
+                business_owner: '',
+                it_owner: 'Khalid Ouafi'
               }}
               onFinish={handleOnFinish}
               autoComplete="off"
@@ -258,8 +260,18 @@ const AppViewInfo = () => {
                 <Form.Item label="Documentation" name="documentation" style={{ width: '100%' }}>
                   <Input.TextArea disabled />
                 </Form.Item>
-                <Divider orientation="left" plain key="Ownership" style={{ fontWeight: 'bold' }}></Divider>
-                <Divider orientation="left" plain key="Support" style={{ fontWeight: 'bold' }}></Divider>
+                <Divider orientation="left" plain key="Ownership" style={{ fontWeight: 'bold' }}>Ownership</Divider>
+                <Col span={12}>
+                  <Form.Item label="Business Owner" name="business_owner">
+                    <Input disabled />
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item label="IT Owner" name="it_owner">
+                    <Input disabled />
+                  </Form.Item>
+                </Col>
+                <Divider orientation="left" plain key="Support" style={{ fontWeight: 'bold' }}>Support</Divider>
               </Row>
             </Form>
           )

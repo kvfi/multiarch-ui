@@ -9,6 +9,7 @@ import { NotFound } from './pages/not-found'
 import BPMHomePage from './pages/Processes'
 import ProcessNew from './pages/Processes/ProcessNew'
 import RequirementsRepositoryHome from './pages/RM'
+import NewRequirement from './pages/RM/NewRequirement'
 import { APP_URLS } from './utils/constants'
 
 export const routes = [
@@ -51,6 +52,10 @@ export const routes = [
       {
         path: APP_URLS.REQUIREMENTS_MANAGEMENT,
         element: <RequirementsRepositoryHome />
+      },
+      {
+        path: APP_URLS.RM.NEW_REQUIREMENT,
+        element: <NewRequirement />
       },
       {
         path: APP_URLS.MASTER_DATA_VENDORS,

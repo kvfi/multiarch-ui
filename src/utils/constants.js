@@ -14,7 +14,10 @@ export const APP_URLS = {
   REQUIREMENTS_MANAGEMENT: '/RequirementsManagement',
   BUSINESS_PROCESS_MANAGEMENT: '/BPM',
   BPM_PROCESSES: '/BPM/Processes',
-  BPM_PROCESSES_NEW: '/BPM/Processes/New'
+  BPM_PROCESSES_NEW: '/BPM/Processes/New',
+  RM: {
+    NEW_REQUIREMENT: '/RequirementManagement/New'
+  }
 }
 
 export const API_ENDPOINTS = {

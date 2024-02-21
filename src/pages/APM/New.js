@@ -92,14 +92,16 @@ const ApplicationPortfolioMangementRegisterApplication = () => {
             label="Application Code"
             name="application_code"
             dis
-            help={<Button
-              type="link"
-              icon={<ReloadOutlined />}
-              style={{ fontSize: '90%', margin: 0 }}
-              onClick={() => handleGenerateApplicationCodeOnClick()}
-            >
-              Generate application code
-            </Button>}
+            help={
+              <Button
+                type="link"
+                icon={<ReloadOutlined />}
+                style={{ fontSize: '90%', margin: 0 }}
+                onClick={() => handleGenerateApplicationCodeOnClick()}
+              >
+                Generate application code
+              </Button>
+            }
           >
             <Input disabled />
           </Form.Item>

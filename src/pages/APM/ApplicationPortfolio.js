@@ -42,7 +42,6 @@ const ApplicationPortfolio = () => {
     isFetching: applicationTypesAreFetching
   } = useGetApplicationTypesQuery()
 
-
   useEffect(() => {
     dispatch(setTitle('Application Portfolio Management'))
     dispatch(
@@ -99,6 +98,7 @@ const ApplicationPortfolio = () => {
           {applicationStatusesIsError && 'An error was encountered while loading the application statuses.'}
           <Form.Item label="Status" name="status">
             <Select
+              mode="multiple"
               popupMatchSelectWidth={false}
               style={{ width: 200 }}
               options={applicationStatuses.items.map((status) => {
