@@ -1,4 +1,4 @@
-import { Button, Checkbox, Flex, Form, Input, Select, Space, Spin, Typography } from 'antd'
+import { Button, Checkbox, Col, Flex, Form, Input, Row, Select, Space, Spin, Typography } from 'antd'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
@@ -10,6 +10,7 @@ import {
   useGetApplicationTypesQuery
 } from '../../services/applications'
 import { useLazyGetApplicationsWithPropertiesQuery } from '../../services/model'
+import { colStyleSearch, rowStyle, tailFormLayout } from '../../styles'
 import { APP_URLS } from '../../utils/constants'
 
 const { Title } = Typography
@@ -80,9 +81,8 @@ const ApplicationPortfolio = () => {
       </Flex>
       <Title level={5}>Search</Title>
       <Form
+        {...tailFormLayout}
         form={form}
-        size="small"
-        layout="vertical"
         initialValues={{
           application_code: '',
           name: '',
@@ -91,53 +91,71 @@ const ApplicationPortfolio = () => {
         onFinish={handleOnFinish}
         autoComplete="off"
       >
-        <Flex gap="small" align="flex-end">
-          <Form.Item label="Application Code" name="code">
-            <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
-          </Form.Item>
-          {applicationStatusesIsError && 'An error was encountered while loading the application statuses.'}
-          <Form.Item label="Status" name="status">
-            <Select
-              mode="multiple"
-              popupMatchSelectWidth={false}
-              style={{ width: 200 }}
-              options={applicationStatuses.items.map((status) => {
-                return { value: status.id, label: status.name }
-              })}
-              placeholder="Select status"
-            />
-          </Form.Item>
-          {applicationCriticalitiesIsError && 'An error was encountered while loading the application criticalities.'}
-          <Form.Item label="Criticality" name="criticality">
-            <Select
-              popupMatchSelectWidth={false}
-              style={{ width: 200 }}
-              options={applicationCriticalities.items.map((criticality) => {
-                return { value: criticality.id, label: criticality.name }
-              })}
-              placeholder="Select criticality"
-            />
-          </Form.Item>
-          {applicationTypesIsError && 'An error was encountered while loading the application types.'}
-          <Form.Item label="Type" name="type">
-            <Select
-              popupMatchSelectWidth={false}
-              style={{ width: 200 }}
-              options={applicationTypes.items.map((type) => {
-                return { value: type.id, label: type.name }
-              })}
-              placeholder="Select type"
-            />
-          </Form.Item>
-          <Form.Item label="Include external apps" name="include_external_apps" valuePropName="checked">
-            <Checkbox></Checkbox>
-          </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
-          </Form.Item>
-        </Flex>
+        <Row {...rowStyle}>
+          <Col {...colStyleSearch}>
+            <Form.Item label="Application Code" name="code">
+              <Input maxLength={4} onInput={(e) => (e.target.value = e.target.value.toUpperCase())} />
+            </Form.Item>
+          </Col>
+          <Col {...colStyleSearch}>
+            {applicationStatusesIsError && 'An error was encountered while loading the application statuses.'}
+            <Form.Item label="Status" name="status">
+              <Select
+                mode="multiple"
+                popupMatchSelectWidth={false}
+                style={{ width: 200 }}
+                options={applicationStatuses.items.map((status) => {
+                  return { value: status.id, label: status.name }
+                })}
+                placeholder="Select status"
+              />
+            </Form.Item>
+            {applicationTypesIsError && 'An error was encountered while loading the application types.'}
+            <Form.Item label="Type" name="type">
+              <Select
+                popupMatchSelectWidth={false}
+                style={{ width: 200 }}
+                options={applicationTypes.items.map((type) => {
+                  return { value: type.id, label: type.name }
+                })}
+                placeholder="Select type"
+              />
+            </Form.Item>
+            <Form.Item label="Include external apps" name="include_external_apps" valuePropName="checked">
+              <Checkbox></Checkbox>
+            </Form.Item>
+            {applicationCriticalitiesIsError && 'An error was encountered while loading the application criticalities.'}
+            <Form.Item label="Criticality" name="criticality">
+              <Select
+                popupMatchSelectWidth={false}
+                style={{ width: 200 }}
+                options={applicationCriticalities.items.map((criticality) => {
+                  return { value: criticality.id, label: criticality.name }
+                })}
+                placeholder="Select criticality"
+              />
+            </Form.Item>
+            {applicationTypesIsError && 'An error was encountered while loading the application types.'}
+            <Form.Item label="Type" name="type">
+              <Select
+                popupMatchSelectWidth={false}
+                style={{ width: 200 }}
+                options={applicationTypes.items.map((type) => {
+                  return { value: type.id, label: type.name }
+                })}
+                placeholder="Select type"
+              />
+            </Form.Item>
+            <Form.Item label="Include external apps" name="include_external_apps" valuePropName="checked">
+              <Checkbox></Checkbox>
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
+            </Form.Item>
+          </Col>
+        </Row>
       </Form>
       <ApplicationPortfolioDataTable data={data} isLoading={isLoading} isError={isError} error={error} />
     </>

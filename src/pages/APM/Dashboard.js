@@ -14,6 +14,10 @@ import { APP_URLS } from '../../utils/constants'
 
 const { Text } = Typography
 
+const colProps = {
+  span: { xs: 24, sm: 24, md: 24, lg: 24, xl: 24, xxl: 24 }
+}
+
 const ApplicationPortfolioMangementDashboard = () => {
   const dispatch = useDispatch()
 
@@ -52,15 +56,8 @@ const ApplicationPortfolioMangementDashboard = () => {
 
   return (
     <>
-      <Space
-        direction="vertical"
-        size="middle"
-        style={{
-          display: 'flex'
-        }}
-      >
         <Row {...rowStyle}>
-          <Col span={8}>
+          <Col {...colProps}>
             <Card>
               <Card.Meta title="Business Architecture" avatar={<Briefcase />} />
               <Divider />
@@ -90,7 +87,7 @@ const ApplicationPortfolioMangementDashboard = () => {
               </Space.Compact>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col {...colProps}>
             <Card>
               <Card.Meta title="Application Architecture" avatar={<AppWindow />} />
               <Divider />
@@ -127,7 +124,7 @@ const ApplicationPortfolioMangementDashboard = () => {
               </Space.Compact>
             </Card>
           </Col>
-          <Col span={8}>
+          <Col {...colProps}>
             <Card>
               <Card.Meta title="Technology Architecture" avatar={<ManualGearbox />} />
               <Divider />
@@ -159,7 +156,6 @@ const ApplicationPortfolioMangementDashboard = () => {
             </Card>
           </Col>
         </Row>
-      </Space>
     </>
   )
 }
